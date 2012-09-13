@@ -8,6 +8,51 @@ Modules
    modules/mod_*
 
 
+Actions
+=======
+
+.. toctree::
+   :glob:
+
+   modules/actions/action_*
+
+
+Filters
+=======
+
+.. toctree::
+   :glob:
+
+   modules/filters/filter_*
+
+
+Models
+======
+
+.. toctree::
+   :glob:
+
+   modules/models/model_*
+
+
+Resources
+=========
+
+.. toctree::
+   :glob:
+
+   modules/resources/resource_*
+
+
+Services
+========
+
+.. toctree::
+   :glob:
+
+   modules/services/service_*
+
+
 Screen Components (scomps)
 ==========================
 
@@ -17,11 +62,20 @@ Screen Components (scomps)
    modules/scomps/scomp_*
 
 
-Actions
-=======
+Templates
+=========
 
 .. toctree::
    :glob:
 
-   modules/actions/action_*
+   modules/templates/template_*
+
+
+Validators
+==========
+
+.. toctree::
+   :glob:
+
+   modules/validators/validator_*
 
