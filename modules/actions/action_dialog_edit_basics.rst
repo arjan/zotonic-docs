@@ -1,0 +1,10 @@
+.. This file is generated.
+   To document this action, edit the doc-dialog_edit_basics.rst file, which is included in this file.
+
+dialog_edit_basics
+==================
+
+* Module: :doc:`../mod_admin`
+
+.. include:: doc-dialog_edit_basics.rst
+
