@@ -1,0 +1,42 @@
+#!/bin/bash
+
+pushd ${0%/*}
+ZOTONIC_SRC=${ZOTONIC_SRC:=/home/kaos/zotonic}
+
+# /path/to/zotonic/modules/<mod>/scomps/scomp_<mod>_scomp_name.erl
+for f in `find $ZOTONIC_SRC/modules -name scomp_\*`
+do
+    read -r mod scomp <<EOF
+`echo $f | sed -e 's,.*/mod_\([^/]*\).*/scomp_\1_\(.*\).erl,mod_\1 \2,'`
+EOF
+
+    echo mod: $mod scomp: $scomp
+
+    cat <<EOF > scomp_$scomp.rst
+.. This file is generated.
+   To document this scomp, edit the doc-$scomp.rst file, which is included in this file.
+
+$scomp
+${scomp//?/=}
+
+* Module: :doc:\`../$mod\`
+
+.. include:: doc-$scomp.rst
+
+EOF
+
+    cat <<EOF >> ../meta-$mod.rst
+* Scomp: :doc:\`scomps/scomp_$scomp\`
+
+EOF
+
+    if [ ! -e doc-$scomp.rst ]; then 
+        cat <<EOF > doc-$scomp.rst
+
+Not yet documented.
+
+EOF
+    fi
+
+done
+popd

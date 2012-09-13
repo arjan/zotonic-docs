@@ -1,0 +1,36 @@
+#!/bin/bash
+
+pushd ${0%/*}
+ZOTONIC_SRC=${ZOTONIC_SRC:=/home/kaos/zotonic}
+
+for f in `find $ZOTONIC_SRC/modules -name mod_\* -type d -print | xargs -n 1 basename` 
+do 
+    echo mod: $f
+
+    cat <<EOF > $f.rst
+.. This file is generated.
+   To document this module, edit the doc-$f.rst file, which is included in this file.
+
+$f
+${f//?/=}
+
+.. include:: meta-$f.rst
+.. include:: doc-$f.rst
+
+EOF
+
+    cat <<EOF > meta-$f.rst
+.. Generated meta information for $f.
+
+EOF
+
+    if [ ! -e doc-$f.rst ]; then 
+        cat <<EOF > doc-$f.rst
+
+Not yet documented.
+
+EOF
+    fi
+
+done
+popd

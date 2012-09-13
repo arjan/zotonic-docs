@@ -151,3 +151,9 @@ doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
+
+# customizations
+
+.PHONY: stubs
+stubs:
+	for f in `find modules -name .generate | sort`; do $$f; done
