@@ -1,0 +1,42 @@
+#!/bin/bash
+
+pushd ${0%/*}
+ZOTONIC_SRC=${ZOTONIC_SRC:=/home/kaos/zotonic}
+
+# /path/to/zotonic/modules/<mod>/services/service_service_name.erl
+for f in `find $ZOTONIC_SRC/modules -name service_\*`
+do
+    read -r mod service <<EOF
+`echo $f | sed -e 's,.*/mod_\([^/]*\).*/service_\1_\(.*\).erl,mod_\1 \2,'`
+EOF
+
+    echo mod: $mod service: $service
+
+    cat <<EOF > service_$service.rst
+.. This file is generated.
+   To document this service, edit the doc-$service.rst file, which is included in this file.
+
+$service
+${service//?/=}
+
+* Module: :doc:\`../$mod\`
+
+.. include:: doc-$service.rst
+
+EOF
+
+    cat <<EOF >> ../meta-$mod.rst
+* Service: :doc:\`services/service_$service\`
+
+EOF
+
+    if [ ! -e doc-$service.rst ]; then 
+        cat <<EOF > doc-$service.rst
+
+Not yet documented.
+
+EOF
+    fi
+
+done
+popd

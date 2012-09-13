@@ -1,0 +1,42 @@
+#!/bin/bash
+
+pushd ${0%/*}
+ZOTONIC_SRC=${ZOTONIC_SRC:=/home/kaos/zotonic}
+
+# /path/to/zotonic/modules/<mod>/filters/filter_filter_name.erl
+for f in `find $ZOTONIC_SRC/modules -name filter_\*`
+do
+    read -r mod filter <<EOF
+`echo $f | sed -e 's,.*/\(mod_[^/]*\).*/filter_\(.*\).erl,\1 \2,'`
+EOF
+
+    echo mod: $mod filter: $filter
+
+    cat <<EOF > filter_$filter.rst
+.. This file is generated.
+   To document this filter, edit the doc-$filter.rst file, which is included in this file.
+
+$filter
+${filter//?/=}
+
+* Module: :doc:\`../$mod\`
+
+.. include:: doc-$filter.rst
+
+EOF
+
+    cat <<EOF >> ../meta-$mod.rst
+* Filter: :doc:\`filters/filter_$filter\`
+
+EOF
+
+    if [ ! -e doc-$filter.rst ]; then 
+        cat <<EOF > doc-$filter.rst
+
+Not yet documented.
+
+EOF
+    fi
+
+done
+popd

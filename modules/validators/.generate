@@ -1,0 +1,42 @@
+#!/bin/bash
+
+pushd ${0%/*}
+ZOTONIC_SRC=${ZOTONIC_SRC:=/home/kaos/zotonic}
+
+# /path/to/zotonic/modules/<mod>/validators/validator_validator_name.erl
+for f in `find $ZOTONIC_SRC/modules -name validator_\*`
+do
+    read -r mod validator <<EOF
+`echo $f | sed -e 's,.*/mod_\([^/]*\).*/validator_\1_\(.*\).erl,mod_\1 \2,'`
+EOF
+
+    echo mod: $mod validator: $validator
+
+    cat <<EOF > validator_$validator.rst
+.. This file is generated.
+   To document this validator, edit the doc-$validator.rst file, which is included in this file.
+
+$validator
+${validator//?/=}
+
+* Module: :doc:\`../$mod\`
+
+.. include:: doc-$validator.rst
+
+EOF
+
+    cat <<EOF >> ../meta-$mod.rst
+* Validator: :doc:\`validators/validator_$validator\`
+
+EOF
+
+    if [ ! -e doc-$validator.rst ]; then 
+        cat <<EOF > doc-$validator.rst
+
+Not yet documented.
+
+EOF
+    fi
+
+done
+popd
