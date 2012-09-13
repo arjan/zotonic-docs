@@ -1,0 +1,1 @@
+admin_acl	["admin","acl"]	resource_admin	[{template,"admin_acl.tpl"},{selected,"acl"}]
