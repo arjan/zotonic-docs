@@ -156,4 +156,4 @@ doctest:
 
 .PHONY: stubs
 stubs:
-	for f in `find modules -name .generate | sort`; do $$f; done
+	for f in `find modules -name .generate | sort`; do $$f || exit 1; done

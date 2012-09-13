@@ -17,6 +17,15 @@ Actions
    modules/actions/action_*
 
 
+Dispatch rules
+==============
+
+.. toctree::
+   :glob:
+
+   modules/dispatch/dispatch_*
+
+
 Filters
 =======
 
